@@ -2,6 +2,7 @@ from netqasm.sdk.external import NetQASMConnection, Socket
 from netqasm.sdk import Qubit, EPRSocket
 from netqasm.sdk.classical_communication.message import StructuredMessage
 import numpy as np
+import random
 
 
 # Generate the desired number of Bell pairs (Psi^- states)
@@ -21,7 +22,11 @@ def pick_measurement_bases(numBases, conn):
     basis = np.zeros([numBases], dtype=int)
     for k in range(numBases):
         # The E91 protocol uses three measurement bases
-        basis[k] = quantum_rnd(3, conn)
+        basis[k] = random.randint(0, 2)
+
+        # pick basis with quantum random number generator,
+        # seems to make netqsquid unhappy
+        # basis[k] = quantum_rnd(3, conn)
 
     return basis
 
@@ -197,7 +202,7 @@ def estimate_qber(outcomes, socket):
     return remainingOutcomes
 
 
-def main(app_config=None, rounds=250):
+def main(app_config=None, rounds=500):
     socket = Socket("alice", "bob", log_config=app_config.log_config)
     eprSocket = EPRSocket("bob")
     alice = NetQASMConnection(app_name="alice", log_config=app_config.log_config, epr_sockets=[eprSocket])
@@ -237,3 +242,4 @@ def main(app_config=None, rounds=250):
         finalKey = perform_privacy_amplification(correctedOutcomes, socket)
         print(f"Final key: {finalKey}")
 
+        return {"Final key": str(finalKey), "CHSH parameter": float(S), "CHSH uncertainty": float(sigma)}

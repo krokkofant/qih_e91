@@ -21,7 +21,11 @@ def pick_measurement_bases(numBases, conn):
     basis = np.zeros([numBases], dtype=int)
     for k in range(numBases):
         # The E91 protocol uses three measurement bases
-        basis[k] = quantum_rnd(3, conn) + 1  # offset measurement bases
+        basis[k] = random.randint(0, 2) + 1
+
+        # pick basis with quantum random number generator,
+        # seems to make netqsquid unhappy
+        # basis[k] = quantum_rnd(3, conn) + 1  # offset measurement bases
 
     return basis
 
@@ -155,7 +159,7 @@ def estimate_qber(outcomes, socket):
     return qber, remainingOutcomes
 
 
-def main(app_config=None, rounds=250):
+def main(app_config=None, rounds=500, eavesdroppingProbability=0.05):
     socket = Socket("bob", "alice", log_config=app_config.log_config)
     eprSocket = EPRSocket("alice")
     bob = NetQASMConnection(app_name="bob", log_config=app_config.log_config, epr_sockets=[eprSocket])
@@ -193,3 +197,5 @@ def main(app_config=None, rounds=250):
 
         finalKey = perform_privacy_amplification(correctedOutcomes, socket)
         print(f"Final key: {finalKey}")
+
+        return {"QBER": float(qber)}
