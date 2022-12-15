@@ -190,7 +190,7 @@ def perform_privacy_amplification(outcomes, socket):
 # communicate some of the outcomes to estimate the quantum bit error rate (qber)
 def estimate_qber(outcomes, socket):
     numOutcomes = len(outcomes)
-    numSamples = int(numOutcomes/2)  # use 1/5th of the outcomes to check the qber (could be made a parameter)
+    numSamples = int(numOutcomes/5)  # use 1/5th of the outcomes to check the qber (could be made a parameter)
     indices = np.random.permutation(numSamples)  # randomly sampled outcomes used to check qber
     payload = [[int(outcomes[i]) for i in indices], [int(idx) for idx in indices]]
     msg = StructuredMessage(header="QberIndices", payload=payload)

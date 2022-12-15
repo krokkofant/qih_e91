@@ -142,7 +142,7 @@ def perform_privacy_amplification(outcomes, socket):
 # communicate some of the outcomes to estimate the quantum bit error rate (qber)
 def estimate_qber(outcomes, socket):
     numOutcomes = len(outcomes)
-    numSamples = int(numOutcomes/2)  # use 1/5th of the outcomes to check the qber (could be made a parameter)
+    numSamples = int(numOutcomes/5)  # use 1/5th of the outcomes to check the qber (could be made a parameter)
 
     payloadAlice = socket.recv_structured().payload
     outcomesAlice = payloadAlice[0]
