@@ -166,8 +166,6 @@ def main(app_config=None, rounds=500, eavesdroppingProbability=0.05):
 
     measurementAngles = np.array([0, 45, 90, 135]) * np.pi / 180
 
-    eavesdroppingProbability = 0.1
-
     with bob:
         # pick measurement bases uniformly randomly
         measurementBases = pick_measurement_bases(rounds, bob)
