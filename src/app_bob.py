@@ -122,7 +122,7 @@ def reconcile_errors(outcomes, socket):
     socket.send(msg)
 
     # make a new list containing the outcomes that should be accepted
-    correctedOutcomes = [xorValues[i] for i, keep in enumerate(accept) if keep]
+    correctedOutcomes = [outcomes[payloadAlice[0][i]] for i, keep in enumerate(accept) if keep]
 
     return correctedOutcomes
 

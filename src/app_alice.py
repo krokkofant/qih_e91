@@ -165,7 +165,7 @@ def reconcile_errors(outcomes, socket):
     accept = [int(msg) for msg in msgBob]
 
     # make a new list containing the outcomes that should be accepted
-    correctedOutcomes = [xorValues[i] for i, keep in enumerate(accept) if keep]
+    correctedOutcomes = [outcomes[permutedIdx[0][i]] for i, keep in enumerate(accept) if keep]
 
     return correctedOutcomes
 
